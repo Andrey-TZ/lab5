@@ -5,24 +5,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.time.LocalDateTime;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Scanner;
 
 public class JsonWorker {
-    private static String requestFileName(){
+    private static String requestFileName() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
-    public   InputStreamReader read() {
+
+    private static char[] read() {
         InputStreamReader reader;
+        File file;
         while (true) {
             try {
-                File file = new File(requestFileName());
+                file = new File(requestFileName());
                 reader = new InputStreamReader(new FileInputStream(file));
                 break;
             } catch (FileNotFoundException e) {
@@ -30,27 +29,32 @@ public class JsonWorker {
             }
 
         }
-        return reader;
+        char[] fileContent = new char[(int) file.length()];
+        try {
+            reader.read(fileContent);
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return fileContent;
 
     }
-    public  Hashtable<Integer, StudyGroup> read() throws IOException {
 
-        reader = read();
-        char[] fileContent = new char[(int) file.length()];
-        reader.read(fileContent);
+    public static Hashtable<Integer, StudyGroup> collectionFromJson() {
+
+        char[] fileContent = read();
         String jsonString = String.valueOf(fileContent);
-        reader.close();
-        LocalDateTime time = LocalDateTime.parse("2023-03-06T20:14:21.307979500");
-
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(StudyGroup.class, new CustomJsonSerializer());
-        Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>(){}.getType();
+        Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>() {
+        }.getType();
         Gson gson = builder.create();
         Hashtable<Integer, StudyGroup> studyGroupMap = gson.fromJson(jsonString, collectionType);
         System.out.println(studyGroupMap);
 
-        String json =gson.toJson(studyGroupMap);
+        String json = gson.toJson(studyGroupMap);
         return studyGroupMap;
     }
 }
