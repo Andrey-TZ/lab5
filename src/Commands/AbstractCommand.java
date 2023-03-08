@@ -7,7 +7,7 @@ public abstract class AbstractCommand {
     private String name;
     private String help;
 
-    public abstract void execute(String args[], Hashtable<Integer, StudyGroup> hashSet, CommandsManager);
+    public abstract void execute(String[] args, Hashtable<Integer, StudyGroup> hashSet);
 
     public String getName() {
         return name;

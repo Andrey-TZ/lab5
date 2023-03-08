@@ -14,7 +14,7 @@ public enum Semester {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return meaning;
     }
 }

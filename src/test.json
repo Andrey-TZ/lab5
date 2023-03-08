@@ -1,0 +1,14 @@
+{"1": {
+  "id": 1,
+  "name": "First",
+  "coordinates": {
+
+  "x":1,
+  "y":1
+},
+  "date": "2023-03-06T20:14:21.307979500",
+  "studentsCount": 5,
+  "formOfEducation": "FULL_TIME_EDUCATION",
+  "semesterEnum": null,
+  "groupAdmin": null
+}}
