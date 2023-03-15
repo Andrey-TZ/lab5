@@ -3,6 +3,7 @@ package Model;
 import Exceptions.EmptyFieldException;
 import Exceptions.WrongFieldException;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class Person {
     public void setName(String name) throws EmptyFieldException {
         if (name != null && !name.isEmpty()) {
             this.name = name;
-        } else throw new EmptyFieldException();
+        } else throw new EmptyFieldException("Поле \"имя\" не может быть пустым");
     }
 
     public String getName() {
@@ -39,11 +40,12 @@ public class Person {
     public void setBirthday(Date birthday) throws EmptyFieldException {
         if (birthday != null) {
             this.birthday = birthday;
-        } else throw new EmptyFieldException();
+        } else throw new EmptyFieldException("Поле \"день рождения\" не может быть пустым");
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public String getBirthday() {
+
+        return new SimpleDateFormat("dd-MM-yyyy").format(birthday);
     }
 
     /**
@@ -51,7 +53,7 @@ public class Person {
      */
     public void setHeight(Float height) throws EmptyFieldException, WrongFieldException {
         if (height == null) {
-            throw new EmptyFieldException();
+            throw new EmptyFieldException("Поле \"рост\" не может быть пустым");
         } else if (height < 1) {
             throw new WrongFieldException("Рост должен быть больше 0!");
         } else this.height = height;

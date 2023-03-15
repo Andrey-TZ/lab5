@@ -1,5 +1,6 @@
 package Utils;
 
+import Model.Coordinates;
 import Model.StudyGroup;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,6 +12,9 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class JsonWorker {
+    private static String file;
+    private static final Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>() {}.getType();
+
     private static String requestFileName() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -18,18 +22,19 @@ public class JsonWorker {
 
     private static char[] read() {
         InputStreamReader reader;
-        File file;
+        File fileRead;
         while (true) {
             try {
-                file = new File(requestFileName());
-                reader = new InputStreamReader(new FileInputStream(file));
+                file = requestFileName();
+                fileRead = new File(file);
+                reader = new InputStreamReader(new FileInputStream(fileRead));
                 break;
             } catch (FileNotFoundException e) {
                 System.out.println("файл с таким именем не найден");
             }
 
         }
-        char[] fileContent = new char[(int) file.length()];
+        char[] fileContent = new char[(int) fileRead.length()];
         try {
             reader.read(fileContent);
             reader.close();
@@ -47,14 +52,37 @@ public class JsonWorker {
         String jsonString = String.valueOf(fileContent);
 
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(StudyGroup.class, new CustomJsonSerializer());
-        Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>() {
-        }.getType();
+        builder.registerTypeAdapter(StudyGroup.class, new StudyGroupJsonSerializer());
         Gson gson = builder.create();
-        Hashtable<Integer, StudyGroup> studyGroupMap = gson.fromJson(jsonString, collectionType);
-        System.out.println(studyGroupMap);
+        System.out.println(jsonString);
 
-        String json = gson.toJson(studyGroupMap);
-        return studyGroupMap;
+        return gson.fromJson(jsonString, collectionType);
+    }
+
+    public static void writeJson(Hashtable<Integer, StudyGroup> collection) {
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(StudyGroup.class, new StudyGroupJsonSerializer());
+        builder.registerTypeAdapter(Coordinates.class, new CoordinatesJsonSerializer());
+        Gson gson = builder.create();
+        String collectionJsonString = gson.toJson(collection, collectionType);
+        System.out.println(collectionJsonString);
+        writeToFile(collectionJsonString);
+
+    }
+
+    private static void writeToFile(String jsonString) {
+        while (true) {
+            try {
+                file = requestFileName();
+                PrintWriter out = new PrintWriter(new FileWriter(file));
+                out.write(jsonString);
+                out.close();
+                break;
+            } catch (IOException e) {
+                System.out.println("не удалось записать данные в этот файл");
+            }
+
+        }
     }
 }

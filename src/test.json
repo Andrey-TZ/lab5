@@ -2,13 +2,29 @@
   "id": 1,
   "name": "First",
   "coordinates": {
-
   "x":1,
   "y":1
 },
   "date": "2023-03-06T20:14:21.307979500",
   "studentsCount": 5,
   "formOfEducation": "FULL_TIME_EDUCATION",
-  "semesterEnum": null,
-  "groupAdmin": null
+  "semesterEnum": "null",
+  "groupAdmin": "null"
+},
+"2": {
+  "id": 2,
+  "name": "Second",
+  "coordinates": {
+    "x": 2,
+    "y": 2
+  },
+  "date": "2023-03-06T20:14:21.307979500",
+  "studentsCount": 10,
+  "formOfEducation": "FULL_TIME_EDUCATION",
+  "semesterEnum": "SECOND",
+  "groupAdmin": {
+    "name": "Andrey",
+    "birthday": "14-12-2004",
+    "height": 185
+  }
 }}

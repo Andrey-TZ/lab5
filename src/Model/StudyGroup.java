@@ -2,9 +2,8 @@ package Model;
 
 import Exceptions.WrongFieldException;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class StudyGroup {
@@ -21,7 +20,7 @@ public class StudyGroup {
     public StudyGroup(String name, Coordinates coordinates, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException {
         setId(idSetter++);
         setCoordinates(coordinates);
-        this.creationDate = LocalDateTime.now();
+//        this.creationDate = LocalDateTime.now();
         setStudentsCount(studentsCount);
         setFormOfEducation(formOfEducation);
         setSemesterEnum(semesterEnum);
@@ -74,9 +73,9 @@ public class StudyGroup {
         else this.coordinates = coordinates;
     }
 
-    public java.time.LocalDateTime getCreationDate() {
-        return creationDate;
-    }
+//    public java.time.LocalDateTime getCreationDate() {
+//        return creationDate;
+//    }
 
     public long getStudentsCount() {
         return studentsCount;
@@ -85,6 +84,11 @@ public class StudyGroup {
     public void setStudentsCount(long studentsCount) throws WrongFieldException {
         if (studentsCount < 1) throw new WrongFieldException("Количество студентов должно быть больше 0 ");
         else this.studentsCount = studentsCount;
+
+    }
+
+    public String getCreationDate(){
+        return creationDate.toString();
     }
 
     public FormOfEducation getFormOfEducation() {
@@ -118,8 +122,7 @@ public class StudyGroup {
                 "id = " + id + ":" +
                 "\nназвание: '" + name + "'" +
                 ", координаты: " + coordinates +
-                ", дата создания: " + creationDate.toLocalDate() +
-                ", время создания:" + creationDate.toLocalTime() +
+                ", дата создания: " + creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
                 ", количество студентов: " + studentsCount +
                 ", форма обучения: " + formOfEducation +
                 ", семестр: " + semesterEnum +
