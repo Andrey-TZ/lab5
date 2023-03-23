@@ -1,5 +1,6 @@
 package Utils;
 
+import Exceptions.WrongFieldException;
 import Model.Coordinates;
 import com.google.gson.*;
 
@@ -19,7 +20,13 @@ public class CoordinatesJsonSerializer implements JsonSerializer<Coordinates>, J
         JsonObject object = jsonElement.getAsJsonObject();
         Float x = object.get("x").getAsFloat();
         float y = object.get("y").getAsFloat();
-        return new Coordinates(x, y);
+        try {
+            return new Coordinates(x, y);
+        }
+        catch (WrongFieldException e){
+            System.out.println("Координата X введена неверно");
+        throw new RuntimeException();
+        }
     }
 
     /**

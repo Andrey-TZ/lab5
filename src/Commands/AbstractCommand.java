@@ -4,10 +4,10 @@ import Model.StudyGroup;
 
 import java.util.Hashtable;
 public abstract class AbstractCommand {
-    private String name;
-    private String help;
+    protected String name;
+    protected String help;
 
-    public abstract void execute(String[] args, Hashtable<Integer, StudyGroup> hashSet);
+    public abstract void execute(String[] args);
 
     public String getName() {
         return name;

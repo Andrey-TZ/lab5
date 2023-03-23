@@ -1,15 +1,22 @@
 package Model;
 
+import Exceptions.WrongFieldException;
+
 public class Coordinates {
     private Float x; //Значение поля должно быть больше -478, Поле не может быть null
     private float y;
 
-    public Coordinates(Float x, float y){
+    public Coordinates() {
+    }
+
+    public Coordinates(Float x, float y) throws WrongFieldException {
         setX(x);
         setY(y);
     }
 
-    public void setX(Float x) {
+    public void setX(Float x) throws WrongFieldException {
+        if (x == null) throw new WrongFieldException("X не может быть null");
+        if (x > -478) throw new WrongFieldException("X должен быть больше -478");
         this.x = x;
     }
 

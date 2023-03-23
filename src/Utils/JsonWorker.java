@@ -15,22 +15,30 @@ public class JsonWorker {
     private static String file;
     private static final Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>() {}.getType();
 
+    /**
+     * команда для считывания названия файла
+     * @return название файла
+     */
     private static String requestFileName() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
-    private static char[] read() {
+    /**
+     * Чтение файла
+     * @return содержимое файла в виде массива char
+     */
+    private static char[] read(String file) {
         InputStreamReader reader;
         File fileRead;
         while (true) {
             try {
-                file = requestFileName();
                 fileRead = new File(file);
                 reader = new InputStreamReader(new FileInputStream(fileRead));
                 break;
             } catch (FileNotFoundException e) {
-                System.out.println("файл с таким именем не найден");
+                System.out.println("файл с таким именем не найден, введите новый");
+                file = requestFileName();
             }
 
         }
@@ -46,9 +54,20 @@ public class JsonWorker {
 
     }
 
-    public static Hashtable<Integer, StudyGroup> collectionFromJson() {
+    /**
+     * Парсинг json
+     * @return Hashtable объектов StudyGroup
+     */
+    public static Hashtable<Integer, StudyGroup> collectionFromJson(String[] args) {
+        String fileName;
+        if(args.length != 0){
+            fileName = args[0];
+        } else{
+            System.out.println("Пожалуйста, укажите путь к файлу");
+            fileName = requestFileName();
+        }
 
-        char[] fileContent = read();
+        char[] fileContent = read(fileName);
         String jsonString = String.valueOf(fileContent);
 
         GsonBuilder builder = new GsonBuilder();
@@ -59,6 +78,10 @@ public class JsonWorker {
         return gson.fromJson(jsonString, collectionType);
     }
 
+    /**
+     * Преобразует коллекцию в String
+     * @param collection коллекция объектов StudyGroup
+     */
     public static void writeJson(Hashtable<Integer, StudyGroup> collection) {
 
         GsonBuilder builder = new GsonBuilder();
@@ -71,6 +94,10 @@ public class JsonWorker {
 
     }
 
+    /**
+     * Записывает в файл строку
+     * @param jsonString строка с коллекцией
+     */
     private static void writeToFile(String jsonString) {
         while (true) {
             try {
