@@ -16,7 +16,7 @@ public class Coordinates {
 
     public void setX(Float x) throws WrongFieldException {
         if (x == null) throw new WrongFieldException("X не может быть null");
-        if (x > -478) throw new WrongFieldException("X должен быть больше -478");
+        if (x < -478) throw new WrongFieldException("X должен быть больше -478");
         this.x = x;
     }
 

@@ -24,7 +24,7 @@ public class CoordinatesJsonSerializer implements JsonSerializer<Coordinates>, J
             return new Coordinates(x, y);
         }
         catch (WrongFieldException e){
-            System.out.println("Координата X введена неверно");
+            System.out.println(e.getMessage());
         throw new RuntimeException();
         }
     }

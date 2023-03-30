@@ -1,7 +1,9 @@
 package Commands;
 
 import Run.CollectionManager;
+import com.beust.jcommander.Parameters;
 
+@Parameters(commandNames = {"help"}, commandDescription = "Возвращает информацию о всех командах")
 public class Help extends AbstractCommand{
     private final CollectionManager collectionManager;
     public Help(CollectionManager collectionManager){
@@ -14,7 +16,7 @@ public class Help extends AbstractCommand{
      * @param args
      */
     @Override
-    public void execute(String[] args) {
-
+    public void execute() {
+        System.out.println("It's a help command");
     }
 }

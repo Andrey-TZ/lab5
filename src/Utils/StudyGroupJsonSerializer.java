@@ -1,5 +1,6 @@
 package Utils;
 
+import Exceptions.EmptyFieldException;
 import Exceptions.WrongFieldException;
 import Model.*;
 import com.google.gson.*;
@@ -57,7 +58,7 @@ public class StudyGroupJsonSerializer implements JsonDeserializer<StudyGroup>, J
 //        }
         try {
             return new StudyGroup(id, name, coordinates, creationDate, studentsCount, formOfEducation, semester, groupAdmin);
-        } catch (WrongFieldException e) {
+        } catch (WrongFieldException | EmptyFieldException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }

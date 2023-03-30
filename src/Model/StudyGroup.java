@@ -1,12 +1,16 @@
 package Model;
 
+import Exceptions.EmptyFieldException;
 import Exceptions.WrongFieldException;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class StudyGroup {
+/**
+ *
+ */
+public class StudyGroup implements Comparable<StudyGroup>{
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     public static int idSetter = 1;
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -17,7 +21,18 @@ public class StudyGroup {
     private Semester semesterEnum = null; //Поле может быть null
     private Person groupAdmin = null; //Поле может быть null
 
-    public StudyGroup(String name, Coordinates coordinates, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException {
+    /**
+     *
+     * @param name
+     * @param coordinates
+     * @param studentsCount
+     * @param formOfEducation
+     * @param semesterEnum
+     * @param groupAdmin
+     * @throws WrongFieldException
+     */
+
+    public StudyGroup(String name, Coordinates coordinates, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException, EmptyFieldException {
         setId(idSetter++);
         setCoordinates(coordinates);
 //        this.creationDate = LocalDateTime.now();
@@ -29,7 +44,7 @@ public class StudyGroup {
     }
 
 
-    public StudyGroup(int id, String name, Coordinates coordinates, LocalDateTime creationDate, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException {
+    public StudyGroup(int id, String name, Coordinates coordinates, LocalDateTime creationDate, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException, EmptyFieldException {
         setId(id);
         setName(name);
         setCoordinates(coordinates);
@@ -41,7 +56,7 @@ public class StudyGroup {
         //idSetter = id;
     }
 
-    public void setId(int id) throws WrongFieldException {
+    private void setId(int id) throws WrongFieldException {
         if (id < 1){
             throw  new WrongFieldException("id должно быть больше 0");
         }
@@ -56,9 +71,9 @@ public class StudyGroup {
         return name;
     }
 
-    public void setName(String name) throws NullPointerException {
+    public void setName(String name) throws EmptyFieldException {
         if (name == null || name.isEmpty()) {
-            throw new NullPointerException("Имя не может быть пустой строкой");
+            throw new EmptyFieldException("Имя не может быть пустой строкой");
         } else {
             this.name = name;
         }
@@ -95,8 +110,8 @@ public class StudyGroup {
         return formOfEducation;
     }
 
-    public void setFormOfEducation(FormOfEducation formOfEducation) {
-        if (formOfEducation == null) throw new NullPointerException();
+    public void setFormOfEducation(FormOfEducation formOfEducation) throws EmptyFieldException {
+        if (formOfEducation == null) throw new EmptyFieldException("Форма обучения не может быть пустой");
         else this.formOfEducation = formOfEducation;
     }
 
@@ -132,6 +147,11 @@ public class StudyGroup {
     @Override
     public int hashCode() {
         return 31 * Objects.hash(id, name, coordinates, creationDate, studentsCount, formOfEducation, semesterEnum, groupAdmin);
+    }
+
+    @Override
+    public int compareTo(StudyGroup obj) {
+        return Long.compare(studentsCount, obj.getStudentsCount());
     }
 
     ;

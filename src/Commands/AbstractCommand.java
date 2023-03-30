@@ -7,7 +7,7 @@ public abstract class AbstractCommand {
     protected String name;
     protected String help;
 
-    public abstract void execute(String[] args);
+    public abstract void execute();
 
     public String getName() {
         return name;

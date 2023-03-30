@@ -14,6 +14,8 @@ public class Person {
     private java.util.Date birthday; //Поле не может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
 
+    public Person(){}
+
     /**
      * @param name     - имя человека
      * @param birthday - день рождения человека
@@ -21,6 +23,7 @@ public class Person {
      * @throws EmptyFieldException при передаче пустой строки или null
      * @throws WrongFieldException при передаче неверного аргумента (например, строки вместо числа)
      */
+
     public Person(String name, java.util.Date birthday, Float height) throws EmptyFieldException, WrongFieldException {
         setName(name);
         setBirthday(birthday);
@@ -44,7 +47,6 @@ public class Person {
     }
 
     public String getBirthday() {
-
         return new SimpleDateFormat("dd-MM-yyyy").format(birthday);
     }
 
