@@ -1,4 +1,4 @@
-package Utils;
+package JsonParsing;
 
 import Exceptions.EmptyFieldException;
 import Exceptions.WrongFieldException;
@@ -29,11 +29,11 @@ public class PersonJsonSerializer implements JsonDeserializer<Person>, JsonSeria
             Float height = object.get("height").getAsFloat();
             return new Person(name, birthday, height);
         } catch (ParseException e) {
-            System.out.println("Дата введена не верно!");
-            throw new RuntimeException(e);
+            System.out.println("День Рождения человека введен не верно!");
+            return null;
         } catch (WrongFieldException | EmptyFieldException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            return null;
         }
 
     }

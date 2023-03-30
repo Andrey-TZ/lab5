@@ -1,4 +1,4 @@
-package Utils;
+package JsonParsing;
 
 import Exceptions.WrongFieldException;
 import Model.Coordinates;
@@ -25,7 +25,7 @@ public class CoordinatesJsonSerializer implements JsonSerializer<Coordinates>, J
         }
         catch (WrongFieldException e){
             System.out.println(e.getMessage());
-        throw new RuntimeException();
+            return null;
         }
     }
 

@@ -1,4 +1,4 @@
-package Utils;
+package JsonParsing;
 
 import Model.Coordinates;
 import Model.StudyGroup;
@@ -72,8 +72,8 @@ public class JsonWorker {
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(StudyGroup.class, new StudyGroupJsonSerializer());
+        builder.registerTypeAdapter(collectionType, new HashTableSerializer());
         Gson gson = builder.create();
-        System.out.println(jsonString);
 
         return gson.fromJson(jsonString, collectionType);
     }

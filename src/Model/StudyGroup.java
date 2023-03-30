@@ -35,12 +35,15 @@ public class StudyGroup implements Comparable<StudyGroup>{
     public StudyGroup(String name, Coordinates coordinates, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException, EmptyFieldException {
         setId(idSetter++);
         setCoordinates(coordinates);
-//        this.creationDate = LocalDateTime.now();
+        this.creationDate = LocalDateTime.now();
         setStudentsCount(studentsCount);
         setFormOfEducation(formOfEducation);
         setSemesterEnum(semesterEnum);
         setGroupAdmin(groupAdmin);
 
+    }
+
+    public StudyGroup(){
     }
 
 
