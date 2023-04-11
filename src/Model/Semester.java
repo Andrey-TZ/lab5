@@ -1,20 +1,24 @@
 package Model;
 
 public enum Semester {
-    SECOND("второй"),
-    FOURTH("четвёртый"),
-    FIFTH("пятый"),
-    SIXTH("шестой");
+    SECOND("второй", "SECOND"),
+    FOURTH("четвёртый", "FOURTH"),
+    FIFTH("пятый", "FIFTH"),
+    SIXTH("шестой", "SIXTH");
 
 
-    private String meaning;
+    private final String meaning;
+    private final String value;
 
-    Semester(String meaning) {
+    Semester(String meaning, String value) {
         this.meaning = meaning;
+        this.value = value;
     }
 
     @Override
     public String toString() {
         return meaning;
     }
+
+    public String toStringWithValue() {return toString() + "(" + value + ")";}
 }

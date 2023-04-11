@@ -43,8 +43,12 @@ public class StudyGroup implements Comparable<StudyGroup>{
 
     }
 
-    public StudyGroup(){
+    public StudyGroup(int id){
+        this.id = Integer.max(id, idSetter);
+        this.creationDate = LocalDateTime.now();
     }
+
+
 
 
     public StudyGroup(int id, String name, Coordinates coordinates, LocalDateTime creationDate, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException, EmptyFieldException {

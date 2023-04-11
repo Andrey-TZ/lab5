@@ -9,12 +9,13 @@ import java.util.Date;
 /**
  * Класс человека
  */
-public class Person {
+public class Person implements Comparable<Person> {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private java.util.Date birthday; //Поле не может быть null
     private Float height; //Поле может быть null, Значение поля должно быть больше 0
 
-    public Person(){}
+    public Person() {
+    }
 
     /**
      * @param name     - имя человека
@@ -50,6 +51,10 @@ public class Person {
         return new SimpleDateFormat("dd-MM-yyyy").format(birthday);
     }
 
+    public Date getBirthdayDate() {
+        return birthday;
+    }
+
     /**
      * @param height праметр сеттера роста
      */
@@ -68,6 +73,24 @@ public class Person {
         return height;
     }
 
+    @Override
+    public String toString() {
+        return name + " родился " + getBirthday() + ", рост - " + height;
+    }
 
-
+    @Override
+    public int compareTo(Person oth) {
+        int result = birthday.compareTo(oth.getBirthdayDate());
+        switch (result){
+            case 1 -> {
+                return -1;
+            }
+            case -1 -> {
+                return 1;
+            }
+            default -> {
+                return 0;
+            }
+        }
+    }
 }

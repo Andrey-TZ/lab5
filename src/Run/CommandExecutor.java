@@ -1,9 +1,9 @@
 package Run;
 
-import Commands.AbstractCommand;
-import Commands.Help;
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.MissingCommandException;
+import Commands.*;
+import Exceptions.NotEnoughArgumentsException;
+import Exceptions.WrongArgumentException;
+
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -14,29 +14,45 @@ import java.util.Scanner;
 public class CommandExecutor {
    private final CollectionManager collectionManager;
    private final HashMap<String, AbstractCommand> commands;
-   private final JCommander jc = new JCommander();
+
    public CommandExecutor(CollectionManager collectionManager){
       this.collectionManager = collectionManager;
       this.commands = new HashMap<>();
-      AbstractCommand help = new Help(this.collectionManager);
-      jc.addCommand(help);
-      commands.put("help", new Help(this.collectionManager));
 
-
+      commands.put("clear", new Clear());
+      commands.put("execute_script", new ExecuteScript(commands));
+      commands.put("exit", new Exit());
+      commands.put("filter_less_than_group_admin", new FilterLessThanGroupAdmin());
+      commands.put("filter_starts_with_name", new FilterStartsWithName());
+      commands.put("help", new Help(commands));
+      commands.put("history", new History());
+      commands.put("info", new Info());
+      commands.put("insert", new Insert());
+      commands.put("print_unique_students_count", new PrintUniqueStudentsCount());
+      commands.put("remove_key", new RemoveKey());
+      commands.put("remove_lower", new RemoveLower());
+      commands.put("remove_lower_key", new RemoveLowerKey());
+      commands.put("save", new Save());
+      commands.put("show", new Show());
+      commands.put("update", new Update());
    }
 
    public void inputMode(){
       Scanner commandReader = new Scanner(System.in);
       while (true){
-         System.out.println("Enter a command");
-         String[] arguments = commandReader.nextLine().trim().toLowerCase().split(" ");
+         System.out.print("Введите команду: ");
+         String[] arguments = commandReader.nextLine().trim().toLowerCase().split("\\s+");
          try{
-         jc.parse(arguments);
-         String name = jc.getParsedCommand().trim();
-            System.out.println(name);
-         commands.get(name).execute();}
-         catch (MissingCommandException e){
-            System.out.println("Ну удалось обнаружить команду: "+ arguments[0].trim());
+            String command = arguments[0].trim();
+            commands.get(command).execute(arguments, collectionManager);}
+//        catch (NullPointerException e){
+//            System.out.println("Не удалось обнаружить команду: "+ arguments[0].trim());
+//         }
+         catch(WrongArgumentException e){
+            System.out.println("Введён неподходящий аргумент! " + e.getMessage() + "Попробуйте еще раз!");
+         }
+         catch (NotEnoughArgumentsException e){
+            System.out.println("Недостаточно аргументов. " + e.getMessage() + "Попробуйте еще раз!");
          }
 
       }

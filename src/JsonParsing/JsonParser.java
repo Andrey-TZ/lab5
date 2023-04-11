@@ -6,43 +6,50 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import javax.naming.NoPermissionException;
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-public class JsonWorker {
-    private static String file;
-    private static final Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>() {}.getType();
+public class JsonParser {
+    private static Path path;
+    private static Path getPath(){
+        return path;
+    }
+    private  final Type collectionType = new TypeToken<Hashtable<Integer, StudyGroup>>() {}.getType();
 
     /**
-     * команда для считывания названия файла
+     * Команда для считывания названия файла
      * @return название файла
      */
-    private static String requestFileName() {
+    private  Path requestFilePath() {
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+        return Paths.get(scanner.nextLine());
     }
 
     /**
      * Чтение файла
      * @return содержимое файла в виде массива char
      */
-    private static char[] read(String file) {
+    public char[] read(Path path) {
         InputStreamReader reader;
-        File fileRead;
+        File file;
         while (true) {
             try {
-                fileRead = new File(file);
-                reader = new InputStreamReader(new FileInputStream(fileRead));
+                file = new File(path.toUri());
+                reader = new InputStreamReader(new FileInputStream(file));
                 break;
             } catch (FileNotFoundException e) {
                 System.out.println("файл с таким именем не найден, введите новый");
-                file = requestFileName();
+                path = requestFilePath();
             }
 
         }
-        char[] fileContent = new char[(int) fileRead.length()];
+        char[] fileContent = new char[(int) file.length()];
         try {
             reader.read(fileContent);
             reader.close();
@@ -58,20 +65,19 @@ public class JsonWorker {
      * Парсинг json
      * @return Hashtable объектов StudyGroup
      */
-    public static Hashtable<Integer, StudyGroup> collectionFromJson(String[] args) {
-        String fileName;
+    public  Hashtable<Integer, StudyGroup> collectionFromJson(String[] args) {
+
         if(args.length != 0){
-            fileName = args[0];
+            path = Paths.get(args[0]);
         } else{
             System.out.println("Пожалуйста, укажите путь к файлу");
-            fileName = requestFileName();
+            path = requestFilePath();
         }
 
-        char[] fileContent = read(fileName);
+        char[] fileContent = read(path);
         String jsonString = String.valueOf(fileContent);
 
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(StudyGroup.class, new StudyGroupJsonSerializer());
         builder.registerTypeAdapter(collectionType, new HashTableSerializer());
         Gson gson = builder.create();
 
@@ -82,7 +88,7 @@ public class JsonWorker {
      * Преобразует коллекцию в String
      * @param collection коллекция объектов StudyGroup
      */
-    public static void writeJson(Hashtable<Integer, StudyGroup> collection) {
+    public  void writeJson(Hashtable<Integer, StudyGroup> collection) {
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(StudyGroup.class, new StudyGroupJsonSerializer());
@@ -98,18 +104,27 @@ public class JsonWorker {
      * Записывает в файл строку
      * @param jsonString строка с коллекцией
      */
-    private static void writeToFile(String jsonString) {
+    private  void writeToFile(String jsonString) {
         while (true) {
             try {
-                file = requestFileName();
-                PrintWriter out = new PrintWriter(new FileWriter(file));
+                if (!Files.exists(path)){
+                    Files.createFile(path);
+                }
+                if(! Files.isReadable(path)) throw new NoPermissionException("Не получается прочитать файл");
+                if(! Files.isWritable(path)) throw new NoPermissionException("Не получается записать данные в этот файл");
+
+
+                PrintWriter out = new PrintWriter(new FileWriter(path.toFile()));
                 out.write(jsonString);
                 out.close();
                 break;
             } catch (IOException e) {
-                System.out.println("не удалось записать данные в этот файл");
+                System.out.println("не удалось записать данные в этот файл. Введите путь к другому файлу!");
+                path = requestFilePath();
+            } catch (NoPermissionException e) {
+                System.out.println("Нет доступа к " + path + " - " + e.getMessage());
+                path = requestFilePath();
             }
-
         }
     }
 }
