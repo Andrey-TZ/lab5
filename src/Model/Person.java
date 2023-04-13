@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Класс человека
+ * Person Class. Used to save Admin group
  */
 public class Person implements Comparable<Person> {
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -55,9 +55,7 @@ public class Person implements Comparable<Person> {
         return birthday;
     }
 
-    /**
-     * @param height праметр сеттера роста
-     */
+
     public void setHeight(Float height) throws EmptyFieldException, WrongFieldException {
         if (height == null) {
             throw new EmptyFieldException("Поле \"рост\" не может быть пустым");
@@ -66,9 +64,7 @@ public class Person implements Comparable<Person> {
         } else this.height = height;
     }
 
-    /**
-     * @return рост
-     */
+
     public Float getHeight() {
         return height;
     }
@@ -78,6 +74,10 @@ public class Person implements Comparable<Person> {
         return name + " родился " + getBirthday() + ", рост - " + height;
     }
 
+    /**
+     * Comparison by date of birth
+     * @param oth the object to be compared.
+     */
     @Override
     public int compareTo(Person oth) {
         int result = birthday.compareTo(oth.getBirthdayDate());

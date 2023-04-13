@@ -11,14 +11,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class to serializing and deserializing elements of Person class
+ */
 public class PersonJsonSerializer implements JsonDeserializer<Person>, JsonSerializer<Person> {
 
     /**
-     * @param jsonElement
-     * @param type
-     * @param jsonDeserializationContext
-     * @return
-     * @throws JsonParseException
+     * Deserializing of element
+     *
+     * @param jsonElement the Json data being deserialized
+     * @param type        the type of the Object to deserialize to
+     * @return element of Coordinate class or null if data is incorrect
+     * @throws JsonParseException if json is not in the expected format of typeofT
      */
     @Override
     public Person deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -39,10 +43,11 @@ public class PersonJsonSerializer implements JsonDeserializer<Person>, JsonSeria
     }
 
     /**
-     * @param person
-     * @param type
-     * @param jsonSerializationContext
-     * @return
+     * Serialize element to json object
+     *
+     * @param person the object that needs to be converted to Json.
+     * @param type   the actual type of the source object
+     * @return json object
      */
     @Override
     public JsonElement serialize(Person person, Type type, JsonSerializationContext jsonSerializationContext) {

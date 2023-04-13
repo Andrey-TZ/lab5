@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- *
+ * Study group class. Main collection class
  */
 public class StudyGroup implements Comparable<StudyGroup>{
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -23,17 +23,19 @@ public class StudyGroup implements Comparable<StudyGroup>{
 
     /**
      *
-     * @param name
-     * @param coordinates
-     * @param studentsCount
-     * @param formOfEducation
-     * @param semesterEnum
-     * @param groupAdmin
-     * @throws WrongFieldException
+     * @param name name of the group
+     * @param coordinates coordinates of the group
+     * @param studentsCount counts of students in group
+     * @param formOfEducation form of education in group
+     * @param semesterEnum semester of group
+     * @param groupAdmin group admin
+     * @throws WrongFieldException if given param takes an invalid value
+     * @throws EmptyFieldException if given param is null and its invalid
      */
 
     public StudyGroup(String name, Coordinates coordinates, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException, EmptyFieldException {
         setId(idSetter++);
+        setName(name);
         setCoordinates(coordinates);
         this.creationDate = LocalDateTime.now();
         setStudentsCount(studentsCount);
@@ -43,8 +45,8 @@ public class StudyGroup implements Comparable<StudyGroup>{
 
     }
 
-    public StudyGroup(int id){
-        this.id = Integer.max(id, idSetter);
+    public StudyGroup(){
+        this.id = idSetter++;
         this.creationDate = LocalDateTime.now();
     }
 
@@ -52,6 +54,8 @@ public class StudyGroup implements Comparable<StudyGroup>{
 
 
     public StudyGroup(int id, String name, Coordinates coordinates, LocalDateTime creationDate, long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, Person groupAdmin) throws WrongFieldException, EmptyFieldException {
+        idSetter = id;
+        idSetter ++;
         setId(id);
         setName(name);
         setCoordinates(coordinates);
@@ -60,7 +64,6 @@ public class StudyGroup implements Comparable<StudyGroup>{
         setFormOfEducation(formOfEducation);
         setSemesterEnum(semesterEnum);
         setGroupAdmin(groupAdmin);
-        //idSetter = id;
     }
 
     private void setId(int id) throws WrongFieldException {
@@ -95,9 +98,7 @@ public class StudyGroup implements Comparable<StudyGroup>{
         else this.coordinates = coordinates;
     }
 
-//    public java.time.LocalDateTime getCreationDate() {
-//        return creationDate;
-//    }
+
 
     public long getStudentsCount() {
         return studentsCount;
@@ -137,6 +138,11 @@ public class StudyGroup implements Comparable<StudyGroup>{
     public void setGroupAdmin(Person groupAdmin) {
         this.groupAdmin = groupAdmin;
     }
+
+    /**
+     * Get study group fields
+     * @return String with study group object fields
+     */
 
     @Override
     public String toString() {

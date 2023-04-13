@@ -2,20 +2,18 @@ package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
+
+/**
+ * Command which removes all elements of the collection
+ */
 public class Clear extends AbstractCommand{
     public Clear(){
         this.name = "clear";
         this.description = "очистить коллекцию";
     }
 
-    /**
-     * @param args
-     * @param collectionManager
-     * @throws NotEnoughArgumentsException
-     * @throws WrongArgumentException
-     */
     @Override
     public void execute(String[] args, CollectionManager collectionManager) throws NotEnoughArgumentsException, WrongArgumentException {
         collectionManager.clear();

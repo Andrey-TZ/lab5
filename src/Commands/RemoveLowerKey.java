@@ -2,8 +2,11 @@ package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
+/**
+ * Command to remove all elements from the collection, which has keys less than a given one
+ */
 public class RemoveLowerKey extends AbstractCommand{
     public RemoveLowerKey(){
         this.name = "remove_lower_key {key}";

@@ -9,35 +9,62 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * Helps to get values from terminal.
+ */
 public class CLIManager {
-    private static Scanner in;
+    private static Scanner scanner;
 
+    /**
+     * Read Strong from terminal.
+     *
+     * @return CLI read result. Can be empty string.
+     */
     private String requestString() throws NumberFormatException {
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
+    /**
+     * Read integer from terminal.
+     *
+     * @return Integer number or null, if input is empty.
+     * @throws NumberFormatException if input does not integer number.
+     */
     private Integer requestInt() {
-        Scanner scanner = new Scanner(System.in);
         String integer = scanner.nextLine();
         if (integer.length() == 0) return null;
         return Integer.parseInt(integer);
     }
 
+    /**
+     * Read float from terminal.
+     *
+     * @return Float number or null, if input is empty.
+     * @throws NumberFormatException if input does not float number.
+     */
     private Float requestFloat() throws NumberFormatException {
-        Scanner scanner = new Scanner((System.in));
         String number = scanner.nextLine();
         if (number.length() == 0) return null;
         return Float.parseFloat(number);
     }
 
+    /**
+     * Read long from terminal.
+     *
+     * @return Long number or null, if input is empty.
+     * @throws NumberFormatException if input does not long number.
+     */
     private Long requestLong() throws NumberFormatException {
-        Scanner scanner = new Scanner(System.in);
         String number = scanner.nextLine();
         if (number.length() == 0) return null;
         return Long.parseLong(number);
     }
 
+    /**
+     * Read date from terminal.
+     *
+     * @return Date in format "dd-MM-yyyy"
+     */
     private Date requestDate() {
         Date date;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -45,7 +72,7 @@ public class CLIManager {
         while (true) {
             try {
                 date = dateFormat.parse(requestString());
-                if (date.after(new Date())){
+                if (date.after(new Date())) {
                     System.out.println("Нельзя ставить дату позже сегодняшней!");
                     System.out.println("Попробуйте снова: ");
                     continue;
@@ -59,6 +86,13 @@ public class CLIManager {
         return date;
     }
 
+    /**
+     * Request Semester from terminal. Method will show all the options. Not case-sensitive.
+     *
+     * @return Semester enum object or null, if input is empty.
+     * @throws IllegalArgumentException if input does not match to any option.
+     * @see Semester
+     */
     private Semester requestSemester() throws IllegalArgumentException {
         for (Semester semester : Semester.values()) {
             System.out.print(semester.toStringWithValue() + " ");
@@ -69,6 +103,13 @@ public class CLIManager {
         return Semester.valueOf(option.toUpperCase());
     }
 
+    /**
+     * Request FormOfEducation from terminal. Method will show all the options. Not case-sensitive.
+     *
+     * @return FormOfEducation enum object
+     * @throws IllegalArgumentException if input does not match to any option.
+     * @see FormOfEducation
+     */
     private FormOfEducation requestFormOfEducation() throws IllegalArgumentException {
         for (FormOfEducation formOfEducation : FormOfEducation.values()) {
             System.out.print(formOfEducation.toStringWithValue() + " ");
@@ -79,8 +120,16 @@ public class CLIManager {
         return FormOfEducation.valueOf(option.toUpperCase());
     }
 
+    /**
+     * Requests Coordinates from terminal.
+     *
+     * @return Coordinates object
+     * @see Model.Coordinates
+     */
     private Coordinates requestCoordinates() {
         Coordinates coordinates = new Coordinates();
+
+        //request X coordinate
         while (true) {
             try {
                 System.out.print("Введите координату X: ");
@@ -93,6 +142,7 @@ public class CLIManager {
             }
         }
 
+        //request Y coordinate
         while (true) {
             try {
                 System.out.print("Введите координату Y: ");
@@ -105,20 +155,28 @@ public class CLIManager {
         return coordinates;
     }
 
+    /**
+     * Requests adminGroup from terminal.
+     * @return Person object
+     * @see Model.Person
+     */
     public Person requestAdminGroup() {
         Person adminGroup = new Person();
 
+        // request name
         while (true) {
             try {
                 System.out.print("Введите имя админа групы: ");
                 String name = requestString().toLowerCase();
                 if (name.isEmpty()) return null;
-                adminGroup.setName(name.substring(0,1).toUpperCase() + name.substring(1));
+                adminGroup.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
                 break;
             } catch (EmptyFieldException e) {
                 System.out.println(e.getMessage());
             }
         }
+
+        //request birthdate
         while (true) {
             try {
                 System.out.print("Введите дату рождения админа в формате ДД-ММ-ГГГГ: ");
@@ -128,6 +186,8 @@ public class CLIManager {
                 System.out.println(e.getMessage());
             }
         }
+
+        //request height
         while (true) {
             try {
                 System.out.print("Введите рост: ");
@@ -141,8 +201,18 @@ public class CLIManager {
         return adminGroup;
     }
 
+    /**
+     * Get StudyGroup by fields from CLI
+     * Method will ask each field. If input value is incorrect method will ask to enter it again.
+     * @param studyGroup object to add fields
+     * @return StudyGroup object
+     */
+
     public StudyGroup requestStudygroup(StudyGroup studyGroup) {
+        //request coordinates
         studyGroup.setCoordinates(requestCoordinates());
+
+        //request name
         while (true) {
             try {
                 System.out.print("Введите название группы: ");
@@ -152,6 +222,8 @@ public class CLIManager {
                 System.out.println(e.getMessage());
             }
         }
+
+        // request studentsCount
         while (true) {
             try {
                 System.out.print("Введите количество студентов: ");
@@ -163,6 +235,8 @@ public class CLIManager {
                 System.out.println("Количество студентов должно быть числом");
             }
         }
+
+        //request formOfEducation
         while (true) {
             try {
                 System.out.print("Выберите форму обучения: ");
@@ -175,6 +249,7 @@ public class CLIManager {
             }
         }
 
+        //request semester
         while (true) {
             try {
                 System.out.print("Выберите семестр: ");
@@ -184,7 +259,7 @@ public class CLIManager {
                 System.out.println("Семестр должен быть одним из предложенных");
             }
         }
-
+        // request groupAdmin can be null
         studyGroup.setGroupAdmin(requestAdminGroup());
 
         return studyGroup;

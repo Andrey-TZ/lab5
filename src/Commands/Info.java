@@ -2,8 +2,11 @@ package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
+/**
+ * Command to display information about collection
+ */
 public class Info extends AbstractCommand {
     public Info() {
         this.name = "info";

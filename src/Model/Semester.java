@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Enum for available semesters for study group
+ */
 public enum Semester {
     SECOND("второй", "SECOND"),
     FOURTH("четвёртый", "FOURTH"),
@@ -20,5 +23,13 @@ public enum Semester {
         return meaning;
     }
 
-    public String toStringWithValue() {return toString() + "(" + value + ")";}
+    /**
+     * Method to show element with its value
+     *
+     * @return string representation with value in brackets
+     */
+
+    public String toStringWithValue() {
+        return toString() + "(" + value + ")";
+    }
 }

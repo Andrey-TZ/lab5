@@ -3,14 +3,16 @@ package Commands;
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
 import Model.StudyGroup;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 import Utils.CLIManager;
 
-import java.util.Iterator;
-
+/**
+ * Command to remove all elements from the collection witch less than a given one
+ */
 public class RemoveLower extends AbstractCommand {
     public RemoveLower() {
         this.name = "remove_lower {element}";
+        this.description = "удаляет элементы коллекции меньшие чем введённый";
     }
 
     @Override
@@ -20,7 +22,7 @@ public class RemoveLower extends AbstractCommand {
             return;
             }
         CLIManager cliManager = new CLIManager();
-        StudyGroup group = new StudyGroup(collectionManager.getMaxId());
+        StudyGroup group = new StudyGroup();
         cliManager.requestStudygroup(group);
         collectionManager.removeLower(group);
         collectionManager.addToHistory(this);

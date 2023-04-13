@@ -2,10 +2,13 @@ package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
-import java.sql.SQLOutput;
 import java.util.Set;
+
+/**
+ * Command to display all unique values of students_count param
+ */
 
 public class PrintUniqueStudentsCount extends AbstractCommand{
     public PrintUniqueStudentsCount(){

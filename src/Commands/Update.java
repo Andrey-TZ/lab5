@@ -3,14 +3,13 @@ package Commands;
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
 import Model.StudyGroup;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 import Utils.CLIManager;
-import com.beust.jcommander.Parameters;
 
+/**
+ * Command to update the element by its key
+ */
 public class Update extends AbstractCommand {
-
-
-
     public Update() {
         this.description = "обновить значение элемента, id которого равен заданному";
         this.name = "update";
@@ -27,7 +26,7 @@ public class Update extends AbstractCommand {
         }
 
         StudyGroup group = collectionManager.getById(id);
-        if (group == null) throw  new WrongArgumentException("Элемент с таким id не найден. ");
+        if (group == null) throw new WrongArgumentException("Элемент с таким id не найден. ");
         CLIManager cliManager = new CLIManager();
         cliManager.requestStudygroup(group);
 

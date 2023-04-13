@@ -2,8 +2,11 @@ package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
+/**
+ * Command to insert element to collection with given key
+ */
 public class Insert extends AbstractCommand{
     public Insert(){
         this.name = "insert";

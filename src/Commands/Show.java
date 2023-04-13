@@ -2,8 +2,11 @@ package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
+/**
+ * Command to display all elements from the collection
+ */
 public class Show extends AbstractCommand{
     public Show(){
         this.name = "show";

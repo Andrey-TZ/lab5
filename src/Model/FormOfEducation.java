@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Enum study group form of education
+ */
 public enum FormOfEducation {
     DISTANCE_EDUCATION("дистанционное обучение", "DISTANCE_EDUCATION"),
     FULL_TIME_EDUCATION("дневное очное обучение", "FULL_TIME_EDUCATION"),
@@ -18,7 +21,12 @@ public enum FormOfEducation {
         return meaning;
     }
 
-    public String toStringWithValue(){
+    /**
+     * Method to show element with its value
+     *
+     * @return string representation with value in brackets
+     */
+    public String toStringWithValue() {
         return toString() + "(" + value + ")";
     }
 }

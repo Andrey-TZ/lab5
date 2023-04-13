@@ -6,14 +6,17 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class CoordinatesJsonSerializer implements JsonSerializer<Coordinates>, JsonDeserializer<Coordinates>
-{
+/**
+ * Class to serializing and deserializing elements of Coordinates class
+ */
+public class CoordinatesJsonSerializer implements JsonSerializer<Coordinates>, JsonDeserializer<Coordinates> {
     /**
-     * @param jsonElement
-     * @param type
-     * @param jsonDeserializationContext
-     * @return
-     * @throws JsonParseException
+     * Deserializing of element
+     *
+     * @param jsonElement the Json data being deserialized
+     * @param type        the type of the Object to deserialize to
+     * @return element of Coordinate class or null if data is incorrect
+     * @throws JsonParseException if json is not in the expected format of typeofT
      */
     @Override
     public Coordinates deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -22,18 +25,18 @@ public class CoordinatesJsonSerializer implements JsonSerializer<Coordinates>, J
         float y = object.get("y").getAsFloat();
         try {
             return new Coordinates(x, y);
-        }
-        catch (WrongFieldException e){
+        } catch (WrongFieldException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
 
     /**
-     * @param coordinates
-     * @param type
-     * @param jsonSerializationContext
-     * @return
+     * Serialize element to json object
+     *
+     * @param coordinates the object that needs to be converted to Json.
+     * @param type        the actual type of the source object
+     * @return json object
      */
     @Override
     public JsonElement serialize(Coordinates coordinates, Type type, JsonSerializationContext jsonSerializationContext) {

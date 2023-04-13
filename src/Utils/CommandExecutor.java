@@ -1,4 +1,4 @@
-package Run;
+package Utils;
 
 import Commands.*;
 import Exceptions.NotEnoughArgumentsException;
@@ -9,11 +9,16 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /**
- *
+ * Class for interactive CLI mode
  */
 public class CommandExecutor {
    private final CollectionManager collectionManager;
    private final HashMap<String, AbstractCommand> commands;
+
+   /**
+    * Constructor for command executor
+    * @param collectionManager CollectionManager class object
+    */
 
    public CommandExecutor(CollectionManager collectionManager){
       this.collectionManager = collectionManager;
@@ -37,6 +42,9 @@ public class CommandExecutor {
       commands.put("update", new Update());
    }
 
+   /**
+    * Enter an interactive mode with CLI commands execution
+    */
    public void inputMode(){
       Scanner commandReader = new Scanner(System.in);
       while (true){
@@ -45,9 +53,9 @@ public class CommandExecutor {
          try{
             String command = arguments[0].trim();
             commands.get(command).execute(arguments, collectionManager);}
-//        catch (NullPointerException e){
-//            System.out.println("Не удалось обнаружить команду: "+ arguments[0].trim());
-//         }
+        catch (NullPointerException e){
+            System.out.println("Не удалось обнаружить команду: "+ arguments[0].trim());
+         }
          catch(WrongArgumentException e){
             System.out.println("Введён неподходящий аргумент! " + e.getMessage() + "Попробуйте еще раз!");
          }

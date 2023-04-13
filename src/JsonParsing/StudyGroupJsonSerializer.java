@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 
 /**
- * Класс, дающий шаблон, как преобразовывать содержимое json в java class и обратно.
+ * Class to serializing and deserializing elements of StudyGroup class
  */
 public class StudyGroupJsonSerializer implements JsonDeserializer<StudyGroup>, JsonSerializer<StudyGroup> {
     private GsonBuilder builder = new GsonBuilder();
@@ -24,12 +24,12 @@ public class StudyGroupJsonSerializer implements JsonDeserializer<StudyGroup>, J
     }
 
     /**
-     * Десериализует jsonElement в объект класса StudyGroup
+     * Deserializing of element
      *
-     * @param jsonElement
-     * @param type
-     * @param context
-     * @return объект класса StudyGroup
+     * @param jsonElement the Json data being deserialized
+     * @param type        the type of the Object to deserialize to
+     * @return element of Coordinate class or null if data is incorrect
+     * @throws JsonParseException if json is not in the expected format of typeofT
      */
     public StudyGroup deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) {
         JsonObject object = jsonElement.getAsJsonObject();
@@ -45,21 +45,18 @@ public class StudyGroupJsonSerializer implements JsonDeserializer<StudyGroup>, J
 
         if (object.get("coordinates").isJsonObject()) {
             coordinates = gson.fromJson(object.get("coordinates").getAsJsonObject(), Coordinates.class);
-        }
-        else coordinates = null;
+        } else coordinates = null;
 
         try {
             creationDate = LocalDateTime.parse(object.get("date").getAsString());
-        }
-        catch(DateTimeException e){
+        } catch (DateTimeException e) {
             System.out.print("\"Неверный формат даты\" - ");
             return null;
         }
 
         try {
-             studentsCount = object.get("studentsCount").getAsLong();
-        }
-        catch (NumberFormatException e){
+            studentsCount = object.get("studentsCount").getAsLong();
+        } catch (NumberFormatException e) {
             System.out.print("\"Некорректно введено количество учеников\" - ");
             return null;
         }
@@ -73,8 +70,7 @@ public class StudyGroupJsonSerializer implements JsonDeserializer<StudyGroup>, J
 
         try {
             semester = Semester.valueOf(object.get("semesterEnum").getAsString());
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             semester = null;
         }
 
@@ -93,6 +89,13 @@ public class StudyGroupJsonSerializer implements JsonDeserializer<StudyGroup>, J
         }
     }
 
+    /**
+     * Serialize element to json object
+     *
+     * @param studyGroup the object that needs to be converted to Json.
+     * @param type       the actual type of the source object
+     * @return json object
+     */
     @Override
     public JsonElement serialize(StudyGroup studyGroup, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject object = new JsonObject();

@@ -1,8 +1,8 @@
 import java.util.Hashtable;
 
 import Model.StudyGroup;
-import Run.CollectionManager;
-import Run.CommandExecutor;
+import Utils.CollectionManager;
+import Utils.CommandExecutor;
 import JsonParsing.JsonParser;
 
 public class Main {

@@ -3,8 +3,11 @@ package Commands;
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
 import JsonParsing.JsonParser;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
+/**
+ * Command to save collection to the same file
+ */
 public class Save extends AbstractCommand{
 
     public Save(){
@@ -12,12 +15,6 @@ public class Save extends AbstractCommand{
         this.name = "save";
     }
 
-    /**
-     * @param args
-     * @param collectionManager
-     * @throws NotEnoughArgumentsException
-     * @throws WrongArgumentException
-     */
     @Override
     public void execute(String[] args, CollectionManager collectionManager) throws NotEnoughArgumentsException, WrongArgumentException {
         collectionManager.save(new JsonParser());
