@@ -1,9 +1,13 @@
 package Commands;
 
+import Exceptions.EmptyFieldException;
 import Exceptions.NotEnoughArgumentsException;
 import Exceptions.WrongArgumentException;
+import Exceptions.WrongFieldException;
 import JsonParsing.JsonParser;
+import Model.Person;
 import Utils.CollectionManager;
+import Utils.ScriptManager;
 
 import java.io.*;
 import java.util.HashMap;
@@ -16,7 +20,7 @@ public class ExecuteScript extends AbstractCommand {
 
     public ExecuteScript(HashMap<String, AbstractCommand> commands) {
         this.commands = commands;
-        this.name = "execute_script {file_name}";
+        this.name = "execute_script file_name";
         this.description = "исполнить скрипт из указанного файла";
     }
 
@@ -33,6 +37,23 @@ public class ExecuteScript extends AbstractCommand {
 
             while (line != null) {
                 String[] command = line.split("\\s+");
+                switch (commands.get(command[0]).name){
+                    case "filter_less_than_group_admin {groupAdmin}":{
+                        Person groupAdmin = new Person();
+                        ScriptManager manager = new ScriptManager(reader);
+                        try {
+                            groupAdmin.setName(manager.requestString());
+                            groupAdmin.setBirthday(reader.readLine());
+                            groupAdmin.setHeight(Integer.parseInt(reader.readLine()));
+                        }
+                        catch(NullPointerException e){
+                            System.out.println("В файле не хватило данных для заполнения groupAdmin");
+                        } catch (WrongFieldException | EmptyFieldException e) {
+                            System.out.println("В файле находились ");;
+                        }
+                    }
+                }
+
                 try {
                     commands.get(command[0]).execute(command, collectionManager);
 

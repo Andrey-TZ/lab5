@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Helps to get values from terminal.
  */
 public class CLIManager {
-    private static Scanner scanner;
+    private static Scanner scanner = new Scanner(System.in);
 
     /**
      * Read Strong from terminal.
@@ -21,6 +21,7 @@ public class CLIManager {
      * @return CLI read result. Can be empty string.
      */
     private String requestString() throws NumberFormatException {
+        if (!scanner.hasNextLine()) System.exit(0);
         return scanner.nextLine();
     }
 
@@ -31,6 +32,7 @@ public class CLIManager {
      * @throws NumberFormatException if input does not integer number.
      */
     private Integer requestInt() {
+        if (!scanner.hasNextLine()) System.exit(0);
         String integer = scanner.nextLine();
         if (integer.length() == 0) return null;
         return Integer.parseInt(integer);
@@ -43,6 +45,7 @@ public class CLIManager {
      * @throws NumberFormatException if input does not float number.
      */
     private Float requestFloat() throws NumberFormatException {
+        if (!scanner.hasNextLine()) System.exit(0);
         String number = scanner.nextLine();
         if (number.length() == 0) return null;
         return Float.parseFloat(number);
@@ -55,6 +58,7 @@ public class CLIManager {
      * @throws NumberFormatException if input does not long number.
      */
     private Long requestLong() throws NumberFormatException {
+        if (!scanner.hasNextLine()) System.exit(0);
         String number = scanner.nextLine();
         if (number.length() == 0) return null;
         return Long.parseLong(number);
@@ -71,6 +75,7 @@ public class CLIManager {
         dateFormat.setLenient(false);
         while (true) {
             try {
+                if (!scanner.hasNextLine()) System.exit(0);
                 date = dateFormat.parse(requestString());
                 if (date.after(new Date())) {
                     System.out.println("Нельзя ставить дату позже сегодняшней!");

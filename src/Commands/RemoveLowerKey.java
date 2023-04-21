@@ -9,7 +9,7 @@ import Utils.CollectionManager;
  */
 public class RemoveLowerKey extends AbstractCommand{
     public RemoveLowerKey(){
-        this.name = "remove_lower_key {key}";
+        this.name = "remove_lower_key key";
         this.description = "удалить элементы, ключ которых меньше, чем заданный";
     }
 

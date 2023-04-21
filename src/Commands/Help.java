@@ -19,7 +19,7 @@ public class Help extends AbstractCommand {
     @Override
     public void execute(String[] args, CollectionManager collectionManager) {
         for (String command : this.commands.keySet()) {
-            System.out.printf("%-35s - %s\n", command, this.commands.get(command).getDescription());
+            System.out.printf("%-41s - %s\n", commands.get(command).getName(), this.commands.get(command).getDescription());
         }
         collectionManager.addToHistory(this);
     }

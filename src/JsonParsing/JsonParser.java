@@ -26,6 +26,7 @@ public class JsonParser {
      */
     private Path requestFilePath() {
         Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextLine()) System.exit(0);
         return Paths.get(scanner.nextLine());
     }
 
@@ -38,16 +39,13 @@ public class JsonParser {
     private Path checkPath(Path path) {
         while (true) {
             try {
-                if (!Files.exists(path)) Files.createFile(path);
+
                 if (!Files.isReadable(path)) throw new NoPermissionException("Не получается прочитать файл");
                 if (!Files.isWritable(path))
                     throw new NoPermissionException("Не получается записать данные в этот файл");
                 return path;
             } catch (NoPermissionException e) {
                 System.out.println("Нет доступа к " + path + " - " + e.getMessage());
-                path = requestFilePath();
-            } catch (IOException e) {
-                System.out.println("Не удалось создать файл " + path);
                 path = requestFilePath();
             }
         }
@@ -124,6 +122,7 @@ public class JsonParser {
     private void writeToFile(String jsonString) {
         while (true) {
             try {
+                if (!Files.exists(path)) Files.createFile(path);
                 path = checkPath(path);
                 PrintWriter out = new PrintWriter(new FileWriter(path.toFile()));
                 out.write(jsonString);

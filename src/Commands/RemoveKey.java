@@ -9,7 +9,7 @@ import Utils.CollectionManager;
  */
 public class RemoveKey extends AbstractCommand {
     public RemoveKey() {
-        this.name = "remove_key {key}";
+        this.name = "remove_key key";
         this.description = "удалить элемент коллекции по ключу";
     }
 

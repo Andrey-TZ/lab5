@@ -7,6 +7,7 @@ import Utils.CollectionManager;
  */
 public class Exit extends AbstractCommand{
     public Exit(){
+        this.name = "exit";
         this.description = "завершить программу (без сохранения в файл)";
     }
 

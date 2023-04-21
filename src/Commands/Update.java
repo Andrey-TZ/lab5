@@ -12,7 +12,7 @@ import Utils.CLIManager;
 public class Update extends AbstractCommand {
     public Update() {
         this.description = "обновить значение элемента, id которого равен заданному";
-        this.name = "update";
+        this.name = "update id";
     }
 
     @Override

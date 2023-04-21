@@ -19,7 +19,7 @@ public class History extends AbstractCommand {
         System.out.print("Последние команды: ");
         for (String command : history) {
             if (command != null) {
-                System.out.print(command + ", ");
+                System.out.print(command + "  ");
             }
         }
         System.out.println();

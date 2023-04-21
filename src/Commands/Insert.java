@@ -9,7 +9,7 @@ import Utils.CollectionManager;
  */
 public class Insert extends AbstractCommand{
     public Insert(){
-        this.name = "insert";
+        this.name = "insert key";
         this.description = "добавить новый элемент с заданным ключом";
     }
     @Override

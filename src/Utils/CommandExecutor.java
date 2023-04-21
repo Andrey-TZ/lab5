@@ -49,6 +49,7 @@ public class CommandExecutor {
       Scanner commandReader = new Scanner(System.in);
       while (true){
          System.out.print("Введите команду: ");
+         if (!commandReader.hasNextLine()) System.exit(0);
          String[] arguments = commandReader.nextLine().trim().toLowerCase().split("\\s+");
          try{
             String command = arguments[0].trim();
@@ -64,5 +65,6 @@ public class CommandExecutor {
          }
 
       }
+
    }
 }
