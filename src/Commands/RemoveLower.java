@@ -23,7 +23,7 @@ public class RemoveLower extends AbstractCommand {
             }
         CLIManager cliManager = new CLIManager();
         StudyGroup group = new StudyGroup();
-        cliManager.requestStudygroup(group);
+        cliManager.requestStudyGroup(group);
         collectionManager.removeLower(group);
         collectionManager.addToHistory(this);
     }

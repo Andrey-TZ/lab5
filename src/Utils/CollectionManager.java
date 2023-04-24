@@ -5,9 +5,7 @@ import Exceptions.WrongArgumentException;
 import JsonParsing.JsonParser;
 import Model.Person;
 import Model.StudyGroup;
-import Utils.CLIManager;
 
-import java.security.Key;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -89,7 +87,7 @@ public class CollectionManager {
         if (isKeyExist(key)) throw new WrongArgumentException("Элемент с таким ключом уже существует!");
         StudyGroup group = new StudyGroup();
         CLIManager cliManager = new CLIManager();
-        cliManager.requestStudygroup(group);
+        cliManager.requestStudyGroup(group);
         groups.put(key, group);
 
     }

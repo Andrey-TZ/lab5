@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Helps to get values from terminal.
  */
 public class CLIManager {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     /**
      * Read Strong from terminal.
@@ -25,18 +25,6 @@ public class CLIManager {
         return scanner.nextLine();
     }
 
-    /**
-     * Read integer from terminal.
-     *
-     * @return Integer number or null, if input is empty.
-     * @throws NumberFormatException if input does not integer number.
-     */
-    private Integer requestInt() {
-        if (!scanner.hasNextLine()) System.exit(0);
-        String integer = scanner.nextLine();
-        if (integer.length() == 0) return null;
-        return Integer.parseInt(integer);
-    }
 
     /**
      * Read float from terminal.
@@ -162,6 +150,7 @@ public class CLIManager {
 
     /**
      * Requests adminGroup from terminal.
+     *
      * @return Person object
      * @see Model.Person
      */
@@ -209,11 +198,11 @@ public class CLIManager {
     /**
      * Get StudyGroup by fields from CLI
      * Method will ask each field. If input value is incorrect method will ask to enter it again.
+     *
      * @param studyGroup object to add fields
-     * @return StudyGroup object
      */
 
-    public StudyGroup requestStudygroup(StudyGroup studyGroup) {
+    public void requestStudyGroup(StudyGroup studyGroup) {
         //request coordinates
         studyGroup.setCoordinates(requestCoordinates());
 
@@ -267,7 +256,7 @@ public class CLIManager {
         // request groupAdmin can be null
         studyGroup.setGroupAdmin(requestAdminGroup());
 
-        return studyGroup;
+
     }
 
 }

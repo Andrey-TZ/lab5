@@ -28,7 +28,7 @@ public class Update extends AbstractCommand {
         StudyGroup group = collectionManager.getById(id);
         if (group == null) throw new WrongArgumentException("Элемент с таким id не найден. ");
         CLIManager cliManager = new CLIManager();
-        cliManager.requestStudygroup(group);
+        cliManager.requestStudyGroup(group);
 
         System.out.println("Элемент успешно обновлён");
         collectionManager.addToHistory(this);
