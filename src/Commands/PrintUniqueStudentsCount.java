@@ -1,9 +1,12 @@
 package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
+import Exceptions.NotEnoughLinesException;
 import Exceptions.WrongArgumentException;
 import Utils.CollectionManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Set;
 
 /**
@@ -23,11 +26,16 @@ public class PrintUniqueStudentsCount extends AbstractCommand{
         int index = 0;
         for (Long count: uniqueCounts){
             System.out.print(count);
-            if(index++ < uniqueCounts.size()){
+            if(++index < uniqueCounts.size()){
                 System.out.print(",");
             }
             System.out.print(" ");
         }
         System.out.println();
+    }
+
+    @Override
+    public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException {
+        execute(args, collectionManager);
     }
 }

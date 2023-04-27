@@ -1,12 +1,17 @@
 package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
+import Exceptions.NotEnoughLinesException;
 import Exceptions.WrongArgumentException;
 import Model.Person;
 import Model.StudyGroup;
 import Utils.CollectionManager;
 import Utils.CLIManager;
+import Utils.ScriptManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -21,12 +26,24 @@ public class FilterLessThanGroupAdmin extends AbstractCommand {
     @Override
     public void execute(String[] args, CollectionManager collectionManager) throws NotEnoughArgumentsException, WrongArgumentException {
         CLIManager cliManager = new CLIManager();
+        Person groupAdmin = cliManager.requestAdminGroup();
+
+        execute(collectionManager, groupAdmin);
+    }
+
+    @Override
+    public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException, IOException {
+        ScriptManager manager = new ScriptManager(reader);
+        Person groupAdmin = manager.requestAdminGroup();
+
+        execute(collectionManager, groupAdmin);
+    }
+
+    private void execute(CollectionManager collectionManager, Person groupAdmin) {
         if (collectionManager.isEmpty()) {
             System.out.println("Нет элементов для сравнения");
             return;
         }
-        Person groupAdmin = cliManager.requestAdminGroup();
-
         Set<StudyGroup> groups = collectionManager.filterLessThanGroupAdmin(groupAdmin);
         if (groups == null) {
             System.out.println("Элементы с заданным фильтром не найдены");

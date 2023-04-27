@@ -1,8 +1,12 @@
 package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
+import Exceptions.NotEnoughLinesException;
 import Exceptions.WrongArgumentException;
 import Utils.CollectionManager;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 /**
  * Command to remove all elements from the collection, which has keys less than a given one
@@ -29,4 +33,11 @@ public class RemoveLowerKey extends AbstractCommand{
         System.out.println("\" успешно удалён");
         collectionManager.addToHistory(this);
     }
+
+    @Override
+    public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException {
+        execute(args, collectionManager);
+    }
+
+
 }

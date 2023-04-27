@@ -5,79 +5,90 @@ import Exceptions.NotEnoughLinesException;
 import Exceptions.WrongFieldException;
 import Model.*;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
+import java.util.NoSuchElementException;
 
+/**
+ * Class to reading objects from file
+ */
 public class ScriptManager {
-    Scanner reader;
+    BufferedReader reader;
 
-    public ScriptManager(FileReader reader) {
-        this.reader = new Scanner(reader);
+    public ScriptManager(BufferedReader reader) {
+        this.reader = reader;
     }
 
-    public Float requestFloat() throws IOException, NumberFormatException {
-        String line = reader.nextLine();
+    /**
+     * getting float from file
+     *
+     * @return float
+     * @throws IOException             file can't be reading
+     * @throws NumberFormatException
+     * @throws NoSuchElementException
+     * @throws NotEnoughLinesException
+     */
+    public Float requestFloat() throws IOException, NumberFormatException, NoSuchElementException, NotEnoughLinesException {
+        String line = reader.readLine();
+        if (line == null) throw new NotEnoughLinesException("Не хватило строки с числом с плавающей точкой");
         if (line.length() == 0) return null;
         return Float.parseFloat(line);
     }
 
-    public Long requestLong() throws IOException, NumberFormatException {
-        String line = reader.nextLine();
+    public Long requestLong() throws IOException, NumberFormatException, NotEnoughLinesException {
+        String line = reader.readLine();
+        if (line == null) throw new NotEnoughLinesException("Не хватило строки с числом с плавающей точкой");
         if (line.length() == 0) return null;
         return Long.parseLong(line);
     }
 
-    public String requestString() throws IOException {
-        return reader.nextLine();
+    public String requestString() throws IOException, NotEnoughLinesException {
+        String line = reader.readLine();
+        if (line == null) throw new NotEnoughLinesException("Не хватило строки");
+        return line;
     }
 
-    public Date requestDate() throws NotEnoughLinesException {
+    public Date requestDate() throws NotEnoughLinesException, IOException {
         Date date;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         dateFormat.setLenient(false);
         while (true) {
             try {
-                if (!reader.hasNextLine()) throw new NotEnoughLinesException("Не хватает строки со значением даты!");
                 date = dateFormat.parse((requestString()));
                 return date;
             } catch (ParseException e) {
                 continue;
-            } catch (IOException e) {
-                throw new NotEnoughLinesException("Не хватает строки со значением даты!");
             }
         }
     }
 
-    private Semester requestSemester() {
+    private Semester requestSemester() throws NotEnoughLinesException, IOException {
         try {
             String option = requestString().strip().toLowerCase();
             if (option.length() == 0) return null;
             return Semester.valueOf(option.toUpperCase());
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NotEnoughLinesException e) {
             return null;
         }
 
     }
 
-    private FormOfEducation requestFormOfEducation() throws NotEnoughLinesException {
+    private FormOfEducation requestFormOfEducation() throws NotEnoughLinesException, IOException {
         while (true) {
             try {
                 String option = requestString().strip().toLowerCase();
                 if (option.length() == 0) continue;
                 return FormOfEducation.valueOf(option.toUpperCase());
-            } catch (IOException e) {
-                throw new NotEnoughLinesException("Не хватает строки со значением формы обучения!");
             } catch (IllegalArgumentException e) {
                 continue;
             }
         }
     }
 
-    private Coordinates requestCoordinates() throws NotEnoughLinesException {
+    private Coordinates requestCoordinates() throws NotEnoughLinesException, IOException {
         Coordinates coordinates = new Coordinates();
 
         while (true) {
@@ -86,8 +97,6 @@ public class ScriptManager {
                 break;
             } catch (WrongFieldException | NumberFormatException e) {
                 continue;
-            } catch (IOException e) {
-                throw new NotEnoughLinesException("Не хватает строки со значением Y координаты");
             }
         }
 
@@ -97,14 +106,15 @@ public class ScriptManager {
                 break;
             } catch (NumberFormatException e) {
                 continue;
-            } catch (IOException e) {
+            } catch (NotEnoughLinesException e) {
                 coordinates.setY(0);
+                break;
             }
         }
         return coordinates;
     }
 
-    public Person requestAdminGroup() throws NotEnoughLinesException {
+    public Person requestAdminGroup() throws NotEnoughLinesException, IOException {
         Person adminGroup = new Person();
 
         try {
@@ -112,7 +122,7 @@ public class ScriptManager {
             if (name.isEmpty()) return null;
             adminGroup.setName(name.substring(0, 1).toUpperCase() + name.substring(1));
 
-        } catch (EmptyFieldException | IOException e) {
+        } catch (EmptyFieldException e) {
             return null;
         }
 
@@ -131,14 +141,12 @@ public class ScriptManager {
                 break;
             } catch (WrongFieldException | EmptyFieldException e) {
                 continue;
-            } catch (IOException e) {
-                throw new NotEnoughLinesException("Не хватает строки со значением роста админа группы!");
             }
         }
         return adminGroup;
     }
 
-    public StudyGroup requestStudyGroup(StudyGroup studyGroup) throws NotEnoughLinesException {
+    public void requestStudyGroup(StudyGroup studyGroup) throws NotEnoughLinesException, IOException {
         studyGroup.setCoordinates(requestCoordinates());
 
         while (true) {
@@ -147,8 +155,6 @@ public class ScriptManager {
                 break;
             } catch (EmptyFieldException e) {
                 continue;
-            } catch (IOException e) {
-                throw new NotEnoughLinesException("Не хватает строки с названием группы!");
             }
         }
 
@@ -158,8 +164,6 @@ public class ScriptManager {
                 break;
             } catch (WrongFieldException | NumberFormatException e) {
                 continue;
-            } catch (IOException e) {
-                throw new NotEnoughLinesException("Не хватает строки с количеством студентов в группе!");
             }
         }
         while (true) {
@@ -174,6 +178,6 @@ public class ScriptManager {
         studyGroup.setSemesterEnum(requestSemester());
         studyGroup.setGroupAdmin(requestAdminGroup());
 
-        return studyGroup;
     }
 }
+

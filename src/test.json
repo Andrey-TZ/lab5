@@ -1,1 +1,19 @@
-{"3":{"id":1,"name":"The best group ever","coordinates":{"x":2.1,"y":231.0},"date":"2023-04-10T22:27:08.023041100","studentsCount":25,"formOfEducation":"DISTANCE_EDUCATION","semesterEnum":"SECOND","groupAdmin":"null"}}
+{
+  "123": {
+    "id": 2,
+    "name": "updated group",
+    "coordinates": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "date": "2023-04-27T12:16:15.039251400",
+    "studentsCount": 23,
+    "formOfEducation": "EVENING_CLASSES",
+    "semesterEnum": "SECOND",
+    "groupAdmin": {
+      "name": "Admin 1",
+      "birthday": "12-12-2022",
+      "height": 123.0
+    }
+  }
+}

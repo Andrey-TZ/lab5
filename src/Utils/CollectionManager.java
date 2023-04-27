@@ -83,11 +83,8 @@ public class CollectionManager {
      * @param key of new element in collection
      * @throws WrongArgumentException if element with this key already exists
      */
-    public void insert(Integer key) throws WrongArgumentException {
+    public void insert(Integer key, StudyGroup group) throws WrongArgumentException {
         if (isKeyExist(key)) throw new WrongArgumentException("Элемент с таким ключом уже существует!");
-        StudyGroup group = new StudyGroup();
-        CLIManager cliManager = new CLIManager();
-        cliManager.requestStudyGroup(group);
         groups.put(key, group);
 
     }

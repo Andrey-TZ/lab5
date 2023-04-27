@@ -1,10 +1,15 @@
 package Commands;
 
 import Exceptions.NotEnoughArgumentsException;
+import Exceptions.NotEnoughLinesException;
 import Exceptions.WrongArgumentException;
 import Model.StudyGroup;
 import Utils.CollectionManager;
+import Utils.ScriptManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -24,5 +29,11 @@ public class FilterStartsWithName extends AbstractCommand{
             System.out.println(group);
         }
         collectionManager.addToHistory(this);
+    }
+
+
+    @Override
+    public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException {
+        execute(args, collectionManager);
     }
 }

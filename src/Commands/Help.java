@@ -1,7 +1,12 @@
 package Commands;
 
+import Exceptions.NotEnoughArgumentsException;
+import Exceptions.NotEnoughLinesException;
+import Exceptions.WrongArgumentException;
 import Utils.CollectionManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.HashMap;
 
 /**
@@ -22,6 +27,11 @@ public class Help extends AbstractCommand {
             System.out.printf("%-41s - %s\n", commands.get(command).getName(), this.commands.get(command).getDescription());
         }
         collectionManager.addToHistory(this);
+    }
+
+    @Override
+    public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException {
+        execute(args, collectionManager);
     }
 
 }
