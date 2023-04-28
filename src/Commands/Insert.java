@@ -27,8 +27,8 @@ public class Insert extends AbstractCommand {
         int key;
         try {
             key = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            throw new WrongArgumentException("аргумент должен быть числом!");
+        } catch (NumberFormatException  e) {
+            throw new WrongArgumentException("аргумент должен быть числом! ");
         }
         StudyGroup group = new StudyGroup();
         CLIManager cliManager = new CLIManager();
@@ -45,7 +45,7 @@ public class Insert extends AbstractCommand {
         try {
             key = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            throw new WrongArgumentException("аргумент должен быть числом!");
+            throw new WrongArgumentException("аргумент должен быть числом! ");
         }
         ScriptManager manager = new ScriptManager(reader);
         StudyGroup group = new StudyGroup();

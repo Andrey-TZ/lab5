@@ -21,12 +21,12 @@ public class Save extends AbstractCommand{
 
     @Override
     public void execute(String[] args, CollectionManager collectionManager) throws NotEnoughArgumentsException, WrongArgumentException {
-        collectionManager.save(new JsonParser());
+        collectionManager.save();
         collectionManager.addToHistory(this);
     }
 
     @Override
     public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException {
-        execute(new String[] { }, collectionManager);
+        execute(args, collectionManager);
     }
 }

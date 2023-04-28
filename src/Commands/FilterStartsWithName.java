@@ -10,6 +10,7 @@ import Utils.ScriptManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,6 +26,9 @@ public class FilterStartsWithName extends AbstractCommand{
         if(args.length < 2) throw new NotEnoughArgumentsException("команда требует аргумент \"name\"");
         String name = args[1];
         Set<StudyGroup> groups = collectionManager.filterStartsWithName(name);
+        Set set = new HashSet();
+        HashSet h = new HashSet();
+
         for(StudyGroup group : groups){
             System.out.println(group);
         }

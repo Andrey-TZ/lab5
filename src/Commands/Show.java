@@ -30,6 +30,6 @@ public class Show extends AbstractCommand{
 
     @Override
     public void executeFromFile(BufferedReader reader, String[] args, CollectionManager collectionManager) throws NotEnoughLinesException, WrongArgumentException, NotEnoughArgumentsException {
-        execute(new String[] { }, collectionManager);
+        execute(args, collectionManager);
     }
 }

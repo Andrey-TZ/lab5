@@ -22,37 +22,59 @@ public class JsonParser {
 
     /**
      * Request path to file
+     *
      * @return path to file
      */
     private Path requestFilePath() {
+        System.out.print("Введите путь к файлу с коллекцией: ");
         Scanner scanner = new Scanner(System.in);
         if (!scanner.hasNextLine()) System.exit(0);
-        return Paths.get(scanner.nextLine());
-    }
-
-    /**
-     * Checking is file exists, readable, writable.
-     * And if it's not - request new path
-     * @param path path to file
-     * @return path to file
-     */
-    private Path checkPath(Path path) {
-        while (true) {
+        Path path = Paths.get(scanner.nextLine());
+        {
             try {
-
+                if (!Files.exists(path)) throw new FileNotFoundException("Файл \"" + path + "\" не найден");
                 if (!Files.isReadable(path)) throw new NoPermissionException("Не получается прочитать файл");
                 if (!Files.isWritable(path))
                     throw new NoPermissionException("Не получается записать данные в этот файл");
                 return path;
             } catch (NoPermissionException e) {
                 System.out.println("Нет доступа к " + path + " - " + e.getMessage());
-                path = requestFilePath();
+                System.out.print("Введите путь к файлу с коллекцией: ");
+                path = Paths.get(scanner.nextLine());
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+                System.out.print("Введите путь к файлу с коллекцией: ");
+                if (!scanner.hasNextLine()) System.exit(0);
+                path = Paths.get(scanner.nextLine());
             }
         }
+        return path;
+    }
+
+    /**
+     * Checking is file exists, readable, writable.
+     * And if it's not - request new path
+     *
+     * @param path path to file
+     * @return path to file
+     */
+    private Boolean checkPath(Path path) {
+        try {
+
+            if (!Files.isReadable(path)) throw new NoPermissionException("Не получается прочитать файл");
+            if (!Files.isWritable(path))
+                throw new NoPermissionException("Не получается записать данные в этот файл");
+            return true;
+        } catch (NoPermissionException e) {
+            System.out.println("Нет доступа к " + path + " - " + e.getMessage());
+            return false;
+        }
+
     }
 
     /**
      * Reading file
+     *
      * @param path path to file
      * @return file data in char[]
      */
@@ -68,17 +90,16 @@ public class JsonParser {
                 reader.read(fileContent);
                 reader.close();
                 return fileContent;
-            } catch (FileNotFoundException e) {
-                System.out.println("файл с таким именем не найден, введите новый");
-                path = checkPath(path);
             } catch (IOException e) {
                 System.out.println("Не получилось прочитать файл");
+                path = requestFilePath();
             }
         }
     }
 
     /**
      * Deserializing json
+     *
      * @return Hashtable of StudyGroup objects
      */
     public Hashtable<Integer, StudyGroup> collectionFromJson(String[] args) {
@@ -89,7 +110,6 @@ public class JsonParser {
             System.out.println("Пожалуйста, укажите путь к файлу");
             path = requestFilePath();
         }
-        path = checkPath(path);
 
         char[] fileContent = read(path);
         String jsonString = String.valueOf(fileContent);
@@ -117,19 +137,20 @@ public class JsonParser {
 
     /**
      * Writing String to file
+     *
      * @param jsonString string of serialized collection
      */
     private void writeToFile(String jsonString) {
         while (true) {
             try {
                 if (!Files.exists(path)) Files.createFile(path);
-                path = checkPath(path);
                 PrintWriter out = new PrintWriter(new FileWriter(path.toFile()));
                 out.write(jsonString);
                 out.close();
                 break;
             } catch (IOException e) {
                 System.out.println("не удалось записать данные в этот файл. Введите путь к другому файлу!");
+                path = requestFilePath();
             }
         }
     }

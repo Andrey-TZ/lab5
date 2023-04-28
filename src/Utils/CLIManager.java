@@ -52,6 +52,22 @@ public class CLIManager {
         return Long.parseLong(number);
     }
 
+    private Integer requestInt() throws NumberFormatException {
+        int value;
+        while (true) {
+            if (!scanner.hasNextLine()) System.exit(0);
+            String number = scanner.nextLine();
+            if (number.length() == 0) return null;
+            try {
+                value = Integer.parseInt(number);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Требуется число!");
+            }
+        }
+        return value;
+    }
+
     /**
      * Read date from terminal.
      *
@@ -67,13 +83,18 @@ public class CLIManager {
                 date = dateFormat.parse(requestString());
                 if (date.after(new Date())) {
                     System.out.println("Нельзя ставить дату позже сегодняшней!");
-                    System.out.println("Попробуйте снова: ");
+                    System.out.print("Введите дату рождения: ");
+                    continue;
+                }
+                if (date.before( dateFormat.parse("01-01-1900"))){
+                    System.out.println("Люди не живут так долго :(");
+                    System.out.print("Введите дату рождения: ");
                     continue;
                 }
                 break;
             } catch (ParseException e) {
                 System.out.println("Проверьте корректность данных");
-                System.out.println("Попробуйте ещё раз: ");
+                System.out.print("Попробуйте ещё раз: ");
             }
         }
         return date;
@@ -83,17 +104,39 @@ public class CLIManager {
      * Request Semester from terminal. Method will show all the options. Not case-sensitive.
      *
      * @return Semester enum object or null, if input is empty.
-     * @throws IllegalArgumentException if input does not match to any option.
      * @see Semester
      */
-    private Semester requestSemester() throws IllegalArgumentException {
-        for (Semester semester : Semester.values()) {
-            System.out.print(semester.toStringWithValue() + " ");
+    private Semester requestSemester() {
+        for (int i = 1; i < 4; i++) {
+            System.out.print(i + " - " + Semester.values()[i - 1] + ", ");
         }
-        System.out.println();
-        String option = requestString().strip();
-        if (option.length() == 0) return null;
-        return Semester.valueOf(option.toUpperCase());
+        System.out.println("4 - " + Semester.values()[3]);
+        Integer value = requestInt();
+
+
+        while (true) {
+            switch (value) {
+                case null -> {
+                    return null;
+                }
+                case 1 -> {
+                    return Semester.values()[0];
+                }
+                case 2 -> {
+                    return Semester.values()[1];
+                }
+                case 3 -> {
+                    return Semester.values()[2];
+                }
+                case 4 -> {
+                    return Semester.values()[3];
+                }
+                default -> {
+                    System.out.println("Введите число в диапазоне от 1 до 4");
+                    value = requestInt();
+                }
+            }
+        }
     }
 
     /**
@@ -104,13 +147,34 @@ public class CLIManager {
      * @see FormOfEducation
      */
     private FormOfEducation requestFormOfEducation() throws IllegalArgumentException {
-        for (FormOfEducation formOfEducation : FormOfEducation.values()) {
-            System.out.print(formOfEducation.toStringWithValue() + " ");
+
+        for (int i = 1; i < 4; i++) {
+            System.out.print(i + " - " + FormOfEducation.values()[i - 1] + ", ");
         }
         System.out.println();
-        String option = requestString().strip();
-        if (option.length() == 0) return null;
-        return FormOfEducation.valueOf(option.toUpperCase());
+
+
+        while (true) {
+            try {
+                switch (requestInt()) {
+                    case 1 -> {
+                        return FormOfEducation.values()[0];
+                    }
+                    case 2 -> {
+                        return FormOfEducation.values()[1];
+                    }
+                    case 3 -> {
+                        return FormOfEducation.values()[2];
+                    }
+                    default -> {
+                        System.out.println("Введите число в диапазоне от 1 до 3");
+                    }
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Введите число в диапазоне от 1 до 3");
+            }
+
+        }
     }
 
     /**
@@ -143,6 +207,9 @@ public class CLIManager {
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Y координата должна быть числом!");
+            } catch (NullPointerException e) {
+                coordinates.setY(0);
+                break;
             }
         }
         return coordinates;
@@ -227,6 +294,8 @@ public class CLIManager {
                 System.out.println(e.getMessage());
             } catch (NumberFormatException e) {
                 System.out.println("Количество студентов должно быть числом");
+            } catch (NullPointerException e) {
+                System.out.println("Количество студентов не может быть " + null);
             }
         }
 

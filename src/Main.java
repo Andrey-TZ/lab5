@@ -8,9 +8,7 @@ import JsonParsing.JsonParser;
 public class Main {
     public static void main(String[] args){
 
-        JsonParser parser = new JsonParser();
-        Hashtable<Integer, StudyGroup> group = parser.collectionFromJson(args);
-        CollectionManager collectionManager = new CollectionManager(group);
+        CollectionManager collectionManager = new CollectionManager(args);
         CommandExecutor executor = new CommandExecutor(collectionManager);
         executor.inputMode();
     }

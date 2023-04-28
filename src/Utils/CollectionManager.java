@@ -21,12 +21,19 @@ public class CollectionManager {
     private ZonedDateTime creationDate;
     private int historyIndex = 0;
     private final Hashtable<Integer, StudyGroup> groups;
+    private final JsonParser parser;
 
     /**
      * Constructor. Creates the object to work with collection.
      */
-    public CollectionManager(Hashtable<Integer, StudyGroup> groups) {
-        this.groups = groups;
+    public CollectionManager(String[] args) {
+        Hashtable<Integer, StudyGroup> groups1;
+        parser = new JsonParser();
+        groups1 = parser.collectionFromJson(args);
+        if (groups1 == null) {
+            groups1 = new Hashtable<Integer, StudyGroup>();
+        }
+        this.groups = groups1;
         this.commandsHistory = new String[15];
         this.creationDate = ZonedDateTime.now();
     }
@@ -72,8 +79,11 @@ public class CollectionManager {
      * Print all elements from collection
      */
     public void show() {
-        for (StudyGroup group : groups.values()) {
-            System.out.println(group);
+        if (groups.isEmpty()) System.out.println("В коллекции пока нет ни одного элемента");
+        else {
+            for (StudyGroup group : groups.values()) {
+                System.out.println(group);
+            }
         }
     }
 
@@ -120,10 +130,8 @@ public class CollectionManager {
 
     /**
      * Save collection to file
-     *
-     * @param parser object of JsonParser, which saving to json
      */
-    public void save(JsonParser parser) {
+    public void save() {
         parser.writeJson(groups);
         System.out.println("Коллекция успешно сохранена!");
     }
@@ -227,6 +235,7 @@ public class CollectionManager {
 
     /**
      * Getting history of the last commands
+     *
      * @return history of the last commands
      */
     public String[] getHistory() {
