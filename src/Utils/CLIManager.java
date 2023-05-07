@@ -115,10 +115,8 @@ public class CLIManager {
 
 
         while (true) {
+            if(value == null) return null;
             switch (value) {
-                case null -> {
-                    return null;
-                }
                 case 1 -> {
                     return Semester.values()[0];
                 }
